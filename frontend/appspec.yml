@@ -1,0 +1,53 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /dist/
+    destination: /var/www/html
+  
+  - source: /nginx.conf
+    destination: /etc/nginx/conf.d/default.conf
+  
+  - source: /scripts/
+    destination: /home/ec2-user/scripts
+
+permissions:
+  - object: /var/www/html
+    owner: nginx
+    group: nginx
+    mode: 755
+    type:
+      - directory
+  
+  - object: /var/www/html
+    owner: nginx
+    group: nginx
+    mode: 644
+    type:
+      - file
+
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 60
+      runas: root
+  
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: root
+  
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+  
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 300
+      runas: root
+  
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 300
+      runas: root

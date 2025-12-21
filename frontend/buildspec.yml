@@ -1,0 +1,40 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "Node version:"
+      - node --version
+      - npm --version
+      
+  pre_build:
+    commands:
+      - echo "Installing dependencies..."
+      - npm ci
+      
+  build:
+    commands:
+      - echo "Building React application..."
+      # 백엔드 URL을 빌드 시 주입
+      - export VITE_API_URL="http://BACKEND_ALB_DNS"
+      - npm run build
+      - echo "Build artifacts:"
+      - ls -la dist/
+      
+  post_build:
+    commands:
+      - echo "Build completed"
+
+artifacts:
+  files:
+    - 'dist/**/*'
+    - 'nginx.conf'
+    - 'scripts/**/*'
+    - 'appspec.yml'
+  name: FrontendArtifact
+  
+cache:
+  paths:
+    - 'node_modules/**/*'
