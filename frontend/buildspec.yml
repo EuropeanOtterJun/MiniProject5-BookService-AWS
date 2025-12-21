@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 20
     commands:
       - echo "Node version:"
       - node -v
@@ -13,26 +13,20 @@ phases:
   pre_build:
     commands:
       - echo "Pre-build started on $(date)"
-      - echo "Current directory:"
-      - pwd
-      - echo "Installing dependencies..."
       - cd frontend
-      - npm ci
+      - npm install
       
   build:
     commands:
       - echo "Building React application..."
-      - export VITE_API_URL="team0203-backend-alb-1875315160.us-east-1.elb.amazonaws.com"
+      - export VITE_API_URL="http://team0203-backend-alb-1875315160.us-east-1.elb.amazonaws.com"
       - echo "API URL $VITE_API_URL"
       - npm run build
-      - echo "Build artifacts:"
-      - ls -la dist/
       - cd ..
       
   post_build:
     commands:
       - echo "Build completed on $(date)"
-      - ls -la frontend/dist/
 
 artifacts:
   files:
