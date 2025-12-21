@@ -2,10 +2,10 @@ version: 0.0
 os: linux
 
 files:
-  - source: /build/libs/
+  - source: build/libs/
     destination: /home/ec2-user/app
-  
-  - source: /scripts/
+
+  - source: scripts/
     destination: /home/ec2-user/scripts
 
 permissions:
@@ -15,35 +15,35 @@ permissions:
     mode: 755
     type:
       - directory
-  
+
   - object: /home/ec2-user/scripts
     owner: ec2-user
     group: ec2-user
     mode: 755
     type:
-      - file
+      - directory
 
 hooks:
   ApplicationStop:
     - location: scripts/stop_application.sh
       timeout: 300
       runas: ec2-user
-  
+
   BeforeInstall:
     - location: scripts/before_install.sh
       timeout: 300
-      runas: root
-  
+      runas: root # 폴더 생성 및 소유권 변경을 위해 root 사용
+
   AfterInstall:
     - location: scripts/after_install.sh
       timeout: 300
       runas: ec2-user
-  
+
   ApplicationStart:
     - location: scripts/start_application.sh
       timeout: 300
       runas: ec2-user
-  
+      
   ValidateService:
     - location: scripts/validate_service.sh
       timeout: 300
