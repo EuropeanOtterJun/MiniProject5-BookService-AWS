@@ -2,13 +2,13 @@ version: 0.0
 os: linux
 
 files:
-  - source: /dist/
+  - source: /frontend/dist/
     destination: /var/www/html
   
-  - source: /nginx.conf
+  - source: /frontend/nginx.conf
     destination: /etc/nginx/conf.d/default.conf
   
-  - source: /scripts/
+  - source: /frontend/scripts/
     destination: /home/ec2-user/scripts
 
 permissions:
@@ -19,35 +19,35 @@ permissions:
     type:
       - directory
   
-  - object: /var/www/html
-    owner: nginx
-    group: nginx
+  - object: /etc/nginx/conf.d/default.conf
+    owner: root
+    group: root
     mode: 644
     type:
       - file
 
 hooks:
   ApplicationStop:
-    - location: scripts/stop_application.sh
+    - location: frontend/scripts/stop_application.sh
       timeout: 60
       runas: root
   
   BeforeInstall:
-    - location: scripts/before_install.sh
+    - location: frontend/scripts/before_install.sh
       timeout: 300
       runas: root
   
   AfterInstall:
-    - location: scripts/after_install.sh
+    - location: frontend/scripts/after_install.sh
       timeout: 300
       runas: root
   
   ApplicationStart:
-    - location: scripts/start_application.sh
+    - location: frontend/scripts/start_application.sh
       timeout: 300
       runas: root
   
   ValidateService:
-    - location: scripts/validate_service.sh
+    - location: frontend/scripts/validate_service.sh
       timeout: 300
       runas: root

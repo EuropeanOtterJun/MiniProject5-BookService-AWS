@@ -6,35 +6,43 @@ phases:
       nodejs: 18
     commands:
       - echo "Node version:"
-      - node --version
-      - npm --version
+      - node -v
+      - echo "npm version:"
+      - npm -v
       
   pre_build:
     commands:
+      - echo "Pre-build started on $(date)"
+      - echo "Current directory:"
+      - pwd
       - echo "Installing dependencies..."
+      - cd frontend
       - npm ci
       
   build:
     commands:
       - echo "Building React application..."
-      # 백엔드 URL을 빌드 시 주입
-      - export VITE_API_URL="http://BACKEND_ALB_DNS"
+      # ⚠️ 백엔드 ALB DNS로 변경 필요!
+      - export VITE_API_URL="team0203-backend-alb-1875315160.us-east-1.elb.amazonaws.com"
+      - echo "API URL: $VITE_API_URL"
       - npm run build
       - echo "Build artifacts:"
       - ls -la dist/
+      - cd ..
       
   post_build:
     commands:
-      - echo "Build completed"
+      - echo "Build completed on $(date)"
+      - ls -la frontend/dist/
 
 artifacts:
   files:
-    - 'dist/**/*'
-    - 'nginx.conf'
-    - 'scripts/**/*'
-    - 'appspec.yml'
+    - 'frontend/dist/**/*'
+    - 'frontend/nginx.conf'
+    - 'frontend/scripts/**/*'
+    - 'frontend/appspec.yml'
   name: FrontendArtifact
   
 cache:
   paths:
-    - 'node_modules/**/*'
+    - 'frontend/node_modules/**/*'
