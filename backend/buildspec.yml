@@ -26,10 +26,12 @@ phases:
       - echo "Build completed on $(date)"
 
 artifacts:
+  base-directory: 'backend'
   files:
     - 'build/libs/*.jar'
     - 'scripts/**/*'
     - 'appspec.yml'
+  discard-paths: no
   name: BackendArtifact
   
 cache:
