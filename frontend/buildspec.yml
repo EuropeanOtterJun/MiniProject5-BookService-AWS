@@ -23,7 +23,7 @@ phases:
     commands:
       - echo "Building React application..."
       - export VITE_API_URL="team0203-backend-alb-1875315160.us-east-1.elb.amazonaws.com"
-      - echo "API URL: $VITE_API_URL"
+      - echo "API URL $VITE_API_URL"
       - npm run build
       - echo "Build artifacts:"
       - ls -la dist/
@@ -40,8 +40,8 @@ artifacts:
     - 'frontend/nginx.conf'
     - 'frontend/scripts/**/*'
     - 'frontend/appspec.yml'
-  name: FrontendArtifact
-  
+  discard-paths: no
+
 cache:
   paths:
     - 'frontend/node_modules/**/*'
