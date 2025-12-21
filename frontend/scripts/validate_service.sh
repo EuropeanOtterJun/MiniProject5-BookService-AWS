@@ -55,7 +55,7 @@ else
     
     echo ""
     echo "=== Nginx Configuration ==="
-    cat /etc/nginx/conf.d/default.conf
+    cat /etc/nginx/conf.d/nginx.conf 2>/dev/null || cat /etc/nginx/conf.d/default.conf 2>/dev/null || echo "No config found"
     
     exit 1
 fi

@@ -6,14 +6,16 @@ echo "Before install - Frontend"
 echo "Cleaning up old files..."
 rm -rf /var/www/html/*
 
+# 기존 Nginx 설정 강제 제거 (디렉토리/파일 모두)
+echo "Removing old Nginx configuration..."
+rm -rf /etc/nginx/conf.d/default.conf
+rm -f /etc/nginx/conf.d/default.conf
+rm -f /etc/nginx/conf.d/nginx.conf
+
 # Nginx 설치 확인
 if ! command -v nginx &> /dev/null; then
     echo "Nginx not found. Installing..."
-    
-    # Amazon Linux 2023의 경우
     yum install -y nginx
-    
-    # 또는 Amazon Linux 2의 경우
     amazon-linux-extras enable nginx1 2>/dev/null || true
     yum install -y nginx 2>/dev/null || true
 fi
