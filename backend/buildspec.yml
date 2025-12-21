@@ -10,6 +10,7 @@ phases:
       
   pre_build:
     commands:
+      - cd backend  # backend 폴더로 이동
       - echo "Pre-build started on $(date)"
       - chmod +x ./gradlew
       
