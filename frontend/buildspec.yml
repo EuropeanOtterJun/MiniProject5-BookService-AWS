@@ -30,10 +30,11 @@ phases:
 
 artifacts:
   files:
-    - 'frontend/dist/**/*'
-    - 'frontend/nginx.conf'
-    - 'frontend/scripts/**/*'
-    - 'frontend/appspec.yml'
+    - 'dist/**/*'
+    - 'nginx.conf'
+    - 'scripts/**/*'
+    - 'appspec.yml'
+  base-directory: 'frontend'
   discard-paths: no
 
 cache:
