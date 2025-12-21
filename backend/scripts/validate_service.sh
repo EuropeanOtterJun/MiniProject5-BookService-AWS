@@ -19,5 +19,6 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
 done
 
 echo "❌ Validation failed"
-tail -100 /var/log/myapp/application.log
+# tail -100 /var/log/myapp/application.log
+tail -n 100 /home/ec2-user/application.log # 위에서 바꾼 경로로 수정
 exit 1

@@ -20,7 +20,8 @@ nohup java -jar \
     -Dspring.profiles.active=prod \
     -Xms512m -Xmx1024m \
     $JAR_FILE \
-    > /var/log/myapp/application.log 2>&1 &
+    # > /var/log/myapp/application.log 2>&1 &
+    > /home/ec2-user/application.log 2>&1 & # 경로를 홈 디렉토리로 변경 권장
 
 echo $! > application.pid
 
