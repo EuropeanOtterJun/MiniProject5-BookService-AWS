@@ -2,13 +2,13 @@ version: 0.0
 os: linux
 
 files:
-  - source: /frontend/dist/
+  - source: /dist/                           # frontend/ 없음!
     destination: /var/www/html
   
-  - source: /frontend/nginx.conf
+  - source: /nginx.conf                      # frontend/ 없음!
     destination: /etc/nginx/conf.d/default.conf
   
-  - source: /frontend/scripts/
+  - source: /scripts/                        # frontend/ 없음!
     destination: /home/ec2-user/scripts
 
 permissions:
@@ -28,26 +28,26 @@ permissions:
 
 hooks:
   ApplicationStop:
-    - location: frontend/scripts/stop_application.sh
+    - location: scripts/stop_application.sh  # frontend/ 없음!
       timeout: 60
       runas: root
   
   BeforeInstall:
-    - location: frontend/scripts/before_install.sh
+    - location: scripts/before_install.sh    # frontend/ 없음!
       timeout: 300
       runas: root
   
   AfterInstall:
-    - location: frontend/scripts/after_install.sh
+    - location: scripts/after_install.sh     # frontend/ 없음!
       timeout: 300
       runas: root
   
   ApplicationStart:
-    - location: frontend/scripts/start_application.sh
+    - location: scripts/start_application.sh # frontend/ 없음!
       timeout: 300
       runas: root
   
   ValidateService:
-    - location: frontend/scripts/validate_service.sh
+    - location: scripts/validate_service.sh  # frontend/ 없음!
       timeout: 300
       runas: root

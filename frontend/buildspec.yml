@@ -22,7 +22,6 @@ phases:
   build:
     commands:
       - echo "Building React application..."
-      # ⚠️ 백엔드 ALB DNS로 변경 필요!
       - export VITE_API_URL="team0203-backend-alb-1875315160.us-east-1.elb.amazonaws.com"
       - echo "API URL: $VITE_API_URL"
       - npm run build
