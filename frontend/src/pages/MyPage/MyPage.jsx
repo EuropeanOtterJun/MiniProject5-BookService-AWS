@@ -79,7 +79,7 @@ export default function MyPage() {
 
   return (
     <Container maxWidth="xl" disableGutters sx={{ px: 0 }}>
-      <h1>마이페이지</h1>
+      <h1>마이페이지-Error_Test</h1>
 
       <Grid
         container
