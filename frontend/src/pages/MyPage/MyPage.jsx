@@ -3,6 +3,9 @@ import UserInfo from "../../component/UserInfo/UserInfo";
 import BookList from "../../component/BookList/BookList";
 import { Box, Card, Container, Grid, Typography } from "@mui/material";
 
+// API 기본 URL (환경변수 사용)
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export default function MyPage() {
   const [user, setUser] = useState({
     name: "",
@@ -23,7 +26,7 @@ export default function MyPage() {
     // 1) 유저 정보 조회
     const fetchUser = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/users`, {
+        const res = await fetch(`${API_BASE_URL}/users`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +53,7 @@ export default function MyPage() {
     // 2) 유저 도서 목록 조회
     const fetchBooks = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/users/books`, {
+        const res = await fetch(`${API_BASE_URL}/users/books`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
