@@ -11,6 +11,9 @@ files:
   - source: /scripts/
     destination: /home/ec2-user/scripts
 
+# [추가] 기존 파일이 있을 경우 에러를 내지 않고 덮어씁니다.
+file_exists_behavior: OVERWRITE
+
 permissions:
   - object: /var/www/html
     owner: nginx
