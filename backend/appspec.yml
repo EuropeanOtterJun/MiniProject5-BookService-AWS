@@ -8,6 +8,9 @@ files:
   - source: scripts/
     destination: /home/ec2-user/scripts
 
+# [수정] 기존 파일이 있을 경우 덮어쓰도록 설정 추가
+file_exists_behavior: OVERWRITE
+
 permissions:
   - object: /home/ec2-user/app
     owner: ec2-user
