@@ -23,14 +23,14 @@ public class UserController {
     private final UserService userService;
     private final BookService bookService;
 
-    // // 회원가입
-    // @PostMapping("/signup")
-    // public ResponseEntity<ApiResponse<UserResponseDto>> signUp(
-    //         @Valid @RequestBody UserRequestDto request
-    //         ){
-    //     UserResponseDto result = userService.signUp(request);
-    //     return ResponseEntity.ok(ApiResponse.success("회원가입 성공", result));
-    // }
+    // 회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse<UserResponseDto>> signUp(
+            @Valid @RequestBody UserRequestDto request
+            ){
+        UserResponseDto result = userService.signUp(request);
+        return ResponseEntity.ok(ApiResponse.success("회원가입 성공", result));
+    }
 
     // 로그인
     @PostMapping("/login")
