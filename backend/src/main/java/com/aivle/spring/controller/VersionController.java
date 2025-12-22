@@ -12,7 +12,7 @@ public class VersionController {
     @GetMapping("/version")
     public Map<String, String> getVersion() {
         Map<String, String> version = new HashMap<>();
-        version.put("version", "3.0.0-green");  // Green 버전 표시
+        version.put("version", "1.0.0-green");  // Green 버전 표시
         version.put("environment", "production");
         version.put("timestamp", String.valueOf(System.currentTimeMillis()));
         return version;

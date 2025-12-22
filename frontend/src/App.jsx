@@ -14,8 +14,7 @@ import MyPage from "./pages/MyPage/MyPage.jsx";
 import "./App.css";
 
 // 버전 정보 상수 추가 ⭐
-const APP_VERSION = "3.0.0-green";
-
+const APP_VERSION = "1.0.0-green";
 
 function App() {
   return (

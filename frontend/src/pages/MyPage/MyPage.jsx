@@ -77,10 +77,9 @@ export default function MyPage() {
     fetchBooks();
   }, []);
 
-  
   return (
     <Container maxWidth="xl" disableGutters sx={{ px: 0 }}>
-      <h1>마이페이지-Test</h1>
+      <h1>마이페이지</h1>
 
       <Grid
         container
