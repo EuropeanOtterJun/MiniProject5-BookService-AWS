@@ -10,14 +10,13 @@ phases:
       
   pre_build:
     commands:
-      - cd backend
+      - cd backend  # backend 폴더로 이동
       - echo "Pre-build started on $(date)"
       - chmod +x ./gradlew
       
   build:
     commands:
       - echo "Building Spring Boot application..."
-      # 앞 단계에서 테스트를 했으므로 여기서는 테스트를 건너뛰고(-x test) 빌드만 빠르게 수행합니다.
       - ./gradlew clean build -x test --no-daemon
       - echo "Build artifacts:"
       - ls -lh build/libs/

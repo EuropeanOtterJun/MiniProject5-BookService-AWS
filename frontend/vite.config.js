@@ -13,10 +13,4 @@ export default defineConfig({
       },
     },
   },
-
-  test: {
-    environment: 'jsdom', // 브라우저처럼 동작하게 설정
-    globals: true,
-    setupFiles: './src/setupTests.js', // (선택) 설정 파일 위치 지정
-  }
 });
