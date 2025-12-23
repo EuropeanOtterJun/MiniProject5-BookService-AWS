@@ -19,6 +19,7 @@ phases:
   build:
     commands:
       - echo "Building React application..."
+      # 빌드 시 필요한 환경 변수 설정
       - export VITE_API_URL="http://team0203-backend-alb-1875315160.us-east-1.elb.amazonaws.com"
       - echo "API URL $VITE_API_URL"
       - npm run build

@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo "Entering Install Phase..."
+      - java -version
+
+  pre_build:
+    commands:
+      - echo "Entering Pre-build Phase..."
+      - cd backend
+      - chmod +x ./gradlew
+
+  build:
+    commands:
+      - echo "Running Unit Tests..."
+      # 테스트만 실행합니다. 실패 시 파이프라인이 여기서 멈춥니다.
+      - ./gradlew test
+
+# AWS CodeBuild 콘솔의 [보고서] 탭에서 테스트 성공/실패 그래프를 보기 위한 설정
+reports:
+  SpringUnitTestReports:
+    files:
+      - '**/build/test-results/test/TEST-*.xml'
+    base-directory: 'backend'
+    file-format: JUNITXML
