@@ -1,5 +1,18 @@
 version: 0.2
 
+# [1] 환경 변수 섹션 추가 (여기가 핵심!)
+env:
+  variables:
+    # application.yml에 적혀있는 변수명들과 똑같이 맞춰야 합니다.
+    # 값은 테스트용이므로 가짜로 넣어도 됩니다.
+    DB_HOST: "localhost"
+    DB_PORT: "3306"
+    DB_NAME: "testdb"
+    DB_USER: "testuser"
+    DB_PASSWORD: "testpassword"
+    JWT_SECRET: "testsecretkeytestsecretkeytestsecretkey" # 32글자 이상 추천
+    FRONTEND_URL: "http://localhost:3000"
+
 phases:
   install:
     runtime-versions:
