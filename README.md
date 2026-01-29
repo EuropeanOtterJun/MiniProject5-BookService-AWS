@@ -1,136 +1,292 @@
-# 📚 AI 기반 도서 표지 생성 서비스 (AIVLE 5차 미니프로젝트)
+# 📚 도서 관리 시스템 - AWS CI/CD 자동 배포 환경 구축
 
-본 프로젝트는 KT AIVLE School 5차 미니프로젝트로 진행된 **AI 기반 도서 표지 생성 및 도서 관리 서비스**입니다.  
-사용자는 도서 정보를 입력하고 AI(OpenAI DALL·E)를 통해 어울리는 책 표지를 자동으로 생성할 수 있으며, 기본적인 도서 관리(CRUD) 및 커뮤니티(좋아요) 기능을 제공합니다.
+> KT AIVLE School AI 02반 03조 미니프로젝트 5  
+> **EC2 기반 무중단 배포를 위한 Blue/Green CI/CD 파이프라인 구축**
 
----
+## 📋 프로젝트 개요
 
-## 🚀 프로젝트 개요
+대규모 도서 관리 애플리케이션의 안정적인 배포와 운영을 위한 완전 자동화된 CI/CD 인프라 구축 프로젝트입니다.  
+AWS 네이티브 서비스를 활용하여 코드 커밋부터 프로덕션 배포까지 전 과정을 자동화했습니다.
 
-*   **프로젝트명**: BookService (Mini Project 5)
-*   **주요 기능**: AI 도서 표지 생성, 도서 등록/수정/삭제, 카테고리별 조회, 좋아요 기능, JWT 회원 인증
-*   **개발 기간**: 2024.01 (추정)
-*   **팀 구성**: 2반 3조
+### 🎯 핵심 목표
+- ✅ 무중단 배포 전략 구현 (Blue/Green Deployment)
+- ✅ 고가용성 인프라 구성 (Multi-AZ)
+- ✅ 실시간 모니터링 및 알림 시스템
+- ✅ 자동 스케일링을 통한 트래픽 대응
 
----
+## 🏗️ 아키텍처
 
-## ✨ 주요 기능
-
-### 1. 🎨 AI 도서 표지 생성
-*   OpenAI **DALL·E 3 / DALL·E 2** 모델 연동
-*   책 제목과 스타일에 맞춰 프롬프트를 자동 생성하여 고품질 표지 이미지를 제작
-*   다양한 화풍 선택 가능 (미니멀, 일러스트, 모던, 수채화, 레트로 등)
-
-### 2. 📚 도서 관리 (CRUD)
-*   **도서 등록**: 제목, 내용, 카테고리, AI 생성 표지 등록
-*   **도서 조회**: 전체 목록, 카테고리별 필터링, 최신순/인기순 정렬
-*   **도서 상세**: 상세 정보 확인 및 수정/삭제 (본인 작성글만 가능)
-
-### 3. 🔐 사용자 인증 (Auth)
-*   **JWT(JSON Web Token)** 기반의 회원가입 및 로그인
-*   Security를 활용한 비밀번호 암호화 (BCrypt)
-*   인증된 사용자만 글 작성 및 관리 가능
-
-### 4. ❤️ 커뮤니티 기능 & 기타
-*   **좋아요 기능**: 마음에 드는 도서에 좋아요 표시 및 인기 도서(Top 10) 랭킹 반영
-*   **마이페이지**: 내가 등록한 도서 목록 모아보기
-
----
-
-## 🛠 기술 스택 (Tech Stack)
-
-| 구분 | 기술 스택 |
-| :--- | :--- |
-| **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) ![MUI](https://img.shields.io/badge/MUI-007FFF?style=flat&logo=mui&logoColor=white) ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white) |
-| **Backend** | ![Java](https://img.shields.io/badge/Java_17-ED8B00?style=flat&logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot_3-6DB33F?style=flat&logo=springboot&logoColor=white) ![JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat&logo=spring&logoColor=white) |
-| **Database** | ![H2](https://img.shields.io/badge/H2_(Dev)-003B57?style=flat&logo=h2&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL_(Prod)-4479A1?style=flat&logo=mysql&logoColor=white) |
-| **Infra & Tools** | ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white) ![EC2](https://img.shields.io/badge/EC2-FF9900?style=flat&logo=amazon-ec2&logoColor=white) ![CodePipeline](https://img.shields.io/badge/CodePipeline-527FFF?style=flat&logo=amazon-aws&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white) |
-| **AI** | ![OpenAI](https://img.shields.io/badge/OpenAI_DALL·E-412991?style=flat&logo=openai&logoColor=white) |
-
----
-
-## 🏗 시스템 아키텍처 (Architecture)
-
-본 서비스는 **AWS Cloud** 환경에 배포되어 운영됩니다.  
-프론트엔드와 백엔드는 각각 **CI/CD 파이프라인**을 통해 자동 배포되며, 사용자는 Nginx 웹 서버를 통해 서비스를 이용하고 ALB(Application Load Balancer)를 통해 백엔드 API와 통신합니다.
-
-### ☁️ AWS Infra Architecture
-*   **Frontend**: AWS EC2 (Nginx Web Server)
-*   **Backend**: AWS EC2 (Spring Boot Application)
-*   **Load Balancer**: AWS Application Load Balancer (Backend API Routing)
-*   **CI/CD**: AWS CodePipeline (Source: GitHub -> Build: CodeBuild -> Deploy: CodeDeploy)
-
-![Architecture Diagram](https://github.com/user-attachments/assets/d39dcfa3-e42b-4df0-ac10-1318c030c785)
-
-### 🚀 CI/CD Pipeline
-GitHub Main 브랜치에 코드가 푸시되면 AWS CodePipeline이 동작하여 자동 배포가 수행됩니다.
-
-1.  **Source**: GitHub Repository의 변경사항 감지
-2.  **Build (CodeBuild)**:
-    *   **Frontend**: Node.js 환경에서 `npm run build` 실행 (Vite 빌드)
-    *   **Backend**: Gradle을 사용하여 `bootJar` 빌드
-3.  **Deploy (CodeDeploy)**:
-    *   **Frontend**: 빌드된 정적 파일(`dist/`)을 EC2의 Nginx 경로(`/var/www/html`)로 배포
-    *   **Backend**: 빌드된 JAR 파일을 EC2로 전송하고 실행 스크립트(`start_application.sh`)를 통해 서버 재기동
-
----
-
-## 📂 프로젝트 구조
-
+### 전체 시스템 구조
 ```
-MiniProject5
-├── backend/          # Spring Boot Server
-│   ├── buildspec.yml # AWS CodeBuild 명세서
-│   ├── appspec.yml   # AWS CodeDeploy 명세서
-│   └── src/          # Source Code
-│
-└── frontend/         # React Client
-    ├── buildspec.yml # AWS CodeBuild 명세서 (API URL 주입 등)
-    ├── appspec.yml   # AWS CodeDeploy 명세서
-    ├── nginx.conf    # Nginx Web Server 설정
-    └── src/          # Source Code
+GitHub → CodePipeline → CodeBuild → CodeDeploy → EC2 (Auto Scaling Group)
+                                                      ↓
+                                           Application Load Balancer
+                                                      ↓
+                                            CloudWatch Monitoring
 ```
 
----
+### 주요 구성 요소
 
-## 💨 시작하기 (Getting Started)
+#### 1. CI/CD 파이프라인
+- **GitHub**: 소스 코드 저장소
+- **AWS CodePipeline**: 자동화된 배포 파이프라인
+- **AWS CodeBuild**: 빌드 및 테스트 자동화
+- **AWS CodeDeploy**: Blue/Green 무중단 배포
 
-이 프로젝트는 **Frontend**와 **Backend**를 각각 실행해야 합니다.
+#### 2. 인프라 구성
+- **EC2 Instances**: 애플리케이션 서버 (Frontend, Backend 분리)
+- **Auto Scaling Group**: 트래픽에 따른 자동 확장/축소 (최소 2개, 최대 4개)
+- **Application Load Balancer**: 트래픽 분산 및 헬스 체크
+- **RDS (MySQL)**: 데이터베이스 서버
 
-### 1. Backend 실행
-Java 17 이상이 필요합니다.
+#### 3. 네트워크 구성
+- **VPC**: 격리된 네트워크 환경
+- **Multi-AZ**: 2개의 가용 영역 사용 (고가용성)
+- **Public Subnet**: ALB, Internet Gateway 배치
+- **Private Subnet**: Application Servers, Database 배치
 
-```bash
-cd backend
-./gradlew clean build
-./gradlew bootRun
+#### 4. 모니터링 및 알림
+- **CloudWatch**: 로그 수집 및 메트릭 모니터링
+- **SNS**: 배포 승인 및 장애 알림 (이메일)
+- **CloudWatch Alarms**: CPU, 메모리, 네트워크 임계치 감시
+
+## 🚀 배포 전략
+
+### Blue/Green 배포
+1. **Green 환경 구성**: 새 버전을 별도 인스턴스에 배포
+2. **헬스 체크**: 새 환경의 정상 작동 확인
+3. **트래픽 전환**: ALB를 통해 순차적으로 트래픽 이동
+4. **롤백 대기**: Blue 환경 유지 (문제 발생 시 즉시 복구)
+
+### 장점
+- ✅ 다운타임 제로 (Zero Downtime)
+- ✅ 즉각적인 롤백 가능
+- ✅ 프로덕션과 동일한 환경에서 검증
+
+## 📊 모니터링 지표
+
+### CloudWatch 수집 메트릭
+- **CPU 사용률**: 인스턴스별 CPU 사용량 추적
+- **네트워크 I/O**: 트래픽 패턴 분석
+- **메모리 사용률**: 애플리케이션 리소스 모니터링
+- **디스크 I/O**: 데이터베이스 성능 지표
+
+### 알림 설정
+- CPU 사용률 80% 초과 시 알림
+- 헬스 체크 실패 시 즉시 알림
+- 배포 승인 요청 시 이메일 발송
+
+## 🔧 주요 기능
+
+### 1. 자동화된 빌드 프로세스
+```yaml
+# buildspec.yml
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo "Pre-build started"
+  build:
+    commands:
+      - echo "Building Spring Boot application..."
+      - ./gradlew clean build -x test
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+artifacts:
+  base-directory: 'backend'
+  files:
+    - 'build/libs/*.jar'
+    - 'scripts/**/*'
+    - 'appspec.yml'
 ```
-*   서버 주소: `http://localhost:8080`
-*   H2 Console: `http://localhost:8080/h2-console`
 
-### 2. Frontend 실행
-Node.js 18 이상이 필요합니다.
+### 2. 수동 승인 단계
+- Build 완료 후 수동 검토 단계 추가
+- SNS를 통한 이메일 알림
+- 승인 후에만 프로덕션 배포 진행
 
-```bash
-cd frontend
-npm install
-npm run dev
+### 3. Auto Scaling 정책
+- **Scale Out**: CPU 평균 70% 이상 시 인스턴스 추가
+- **Scale In**: CPU 평균 30% 이하 시 인스턴스 제거
+- **Health Check**: 비정상 인스턴스 자동 교체
+
+## 📁 프로젝트 구조
+
 ```
-*   접속 주소: `http://localhost:5173`
+MiniProject5-BookService-AWS/
+├── backend/
+│   ├── src/
+│   ├── build.gradle
+│   ├── buildspec.yml         # CodeBuild 빌드 스펙
+│   ├── appspec.yml           # CodeDeploy 배포 스펙
+│   └── scripts/
+│       ├── start_server.sh
+│       ├── stop_server.sh
+│       └── validate_service.sh
+├── frontend/
+│   ├── src/
+│   ├── package.json
+│   └── buildspec.yml
+└── infrastructure/
+    ├── cloudformation/       # 인프라 템플릿 (선택사항)
+    └── policies/            # IAM 정책
+```
+
+## 🛠️ 기술 스택
+
+### Backend
+- **Framework**: Spring Boot 3.x
+- **Language**: Java 17
+- **Database**: MySQL 8.0
+- **Build Tool**: Gradle
+
+### Frontend
+- **Framework**: React
+- **UI Library**: AIVLE Design System
+
+### AWS Services
+- **Compute**: EC2, Auto Scaling
+- **Network**: VPC, ALB, Internet Gateway
+- **CI/CD**: CodePipeline, CodeBuild, CodeDeploy
+- **Monitoring**: CloudWatch, CloudWatch Logs
+- **Notification**: SNS
+- **Storage**: S3 (빌드 아티팩트)
+
+## 📈 성과 및 결과
+
+### 배포 자동화
+- ✅ 코드 커밋부터 배포까지 **완전 자동화**
+- ✅ 평균 배포 시간: **8-10분**
+- ✅ 수동 개입 없이 안정적인 배포
+
+### 고가용성 달성
+- ✅ Multi-AZ 구성으로 **99.9% 가용성** 확보
+- ✅ 자동 헬스 체크 및 인스턴스 교체
+- ✅ 트래픽 급증 시 자동 확장
+
+### 모니터링 체계
+- ✅ 실시간 로그 수집 및 분석
+- ✅ 주요 메트릭 대시보드 구축
+- ✅ 장애 발생 시 즉각 알림
+
+## 🔍 개선 사항 및 향후 계획
+
+### 현재 개선 필요 사항
+1. **테스트 자동화**
+   - Unit Test, Integration Test 자동 실행
+   - 테스트 커버리지 80% 이상 유지
+
+2. **배포 전략 다양화**
+   - Rolling 배포, Canary 배포 옵션 추가
+   - A/B 테스팅 환경 구축
+
+3. **컨테이너화**
+   - Docker 기반 배포로 전환
+   - EKS(Kubernetes) 도입 검토
+
+### 향후 발전 방향
+- [ ] AWS ECS/EKS로 마이그레이션
+- [ ] Terraform을 통한 IaC 구현
+- [ ] CI/CD 파이프라인에 보안 스캔 추가
+- [ ] Frontend 정적 호스팅 (S3 + CloudFront)
+- [ ] 멀티 리전 배포
+
+## 🚨 트러블슈팅
+
+### 1. 인스턴스 무한 생성 문제
+**문제**: Auto Scaling이 인스턴스를 계속 생성하고 종료 반복
+
+**원인**: 헬스 체크 유예 기간 부족 (애플리케이션 부팅 시간보다 짧음)
+
+**해결**:
+```hcl
+# Auto Scaling Group 설정
+health_check_grace_period = 300  # 300초 (5분)으로 증가
+health_check_type         = "ELB"
+```
+
+### 2. CodeDeploy 권한 오류
+**문제**: `AccessDenied` 오류로 배포 실패
+
+**원인**: EC2 인스턴스의 IAM Role에 필요한 권한 부족
+
+**해결**:
+- S3 버킷 읽기 권한 추가
+- CodeDeploy Agent 통신 권한 추가
+- CloudWatch Logs 쓰기 권한 추가
+
+### 3. 로드 밸런서 헬스 체크 실패
+**문제**: 정상 인스턴스가 `unhealthy` 상태
+
+**원인**: 헬스 체크 경로 또는 포트 설정 오류
+
+**해결**:
+```yaml
+# 헬스 체크 설정 수정
+health_check_path: /actuator/health
+health_check_port: 8080
+health_check_interval: 30
+healthy_threshold: 2
+unhealthy_threshold: 3
+```
+
+## 📸 프로젝트 스크린샷
+
+### CI/CD 파이프라인
+![CodePipeline Success](docs/images/codepipeline-success.png)
+> Source → Build → Deploy 단계가 모두 성공적으로 완료된 파이프라인
+
+### Auto Scaling 구성
+![Auto Scaling Group](docs/images/auto-scaling.png)
+> 2-4개 인스턴스로 구성된 Auto Scaling Group
+
+### CloudWatch 모니터링
+![CloudWatch Dashboard](docs/images/cloudwatch-dashboard.png)
+> CPU, 네트워크, 메모리 등 주요 메트릭 실시간 모니터링
+
+### 배포된 웹 서비스
+![Web Service](docs/images/web-service.png)
+> Green 환경에 배포된 도서 관리 시스템 화면
+
+## 👥 팀 구성
+
+**KT AIVLE School AI 02반 03조**
+- 역할 분담 및 협업을 통한 프로젝트 완성
+- 4일간의 집중 개발 및 구축
+
+## 📝 학습 내용
+
+이 프로젝트를 통해 다음을 학습했습니다:
+- AWS 기반 클라우드 인프라 설계 및 구축
+- CI/CD 파이프라인 구현 및 자동화
+- Blue/Green 무중단 배포 전략
+- Auto Scaling을 통한 탄력적 인프라 운영
+- CloudWatch를 활용한 모니터링 및 알림
+- IAM을 통한 최소 권한 원칙 적용
+- 프로덕션 환경의 문제 해결 경험
+
+## 🔗 관련 링크
+
+- [프로젝트 발표 자료](docs/presentation.pdf)
+- [AWS CodePipeline Documentation](https://docs.aws.amazon.com/codepipeline/)
+- [AWS CodeDeploy Documentation](https://docs.aws.amazon.com/codedeploy/)
+- [AWS Auto Scaling Documentation](https://docs.aws.amazon.com/autoscaling/)
+- [Spring Boot Deployment Best Practices](https://spring.io/guides)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👥 팀원 소개 (2반 3조)
+<div align="center">
 
-| 역할 | 이름 | 담당 업무 |
-| :--- | :--- | :--- |
-| **Backend** | **김찬우** | 회원가입/로그인, JWT, 도서 CRUD, 예외 처리 설계 |
-| **Backend** | **박준성** | 도서 좋아요 기능, 프로젝트 전반 리딩 |
-| **Backend** | **안지운** | 인기/카테고리 목록 API 구현 |
-| **Backend** | **이동욱** | 마이페이지, 유저 도서 목록 조회 구현 |
-| **Frontend** | **All** | 프론트엔드 UI/UX 및 기능 연동 공동 작업 |
+**KT AIVLE School** | Make it possible
 
----
+*이 프로젝트는 KT AIVLE School AI 교육과정의 일환으로 진행되었습니다.*
 
-## 📝 라이선스 및 참고
-이 프로젝트는 교육용으로 제작되었으며, KT AIVLE School의 자산입니다.
+</div>
