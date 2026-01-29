@@ -44,17 +44,34 @@
 | **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) ![MUI](https://img.shields.io/badge/MUI-007FFF?style=flat&logo=mui&logoColor=white) ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white) |
 | **Backend** | ![Java](https://img.shields.io/badge/Java_17-ED8B00?style=flat&logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot_3-6DB33F?style=flat&logo=springboot&logoColor=white) ![JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat&logo=spring&logoColor=white) |
 | **Database** | ![H2](https://img.shields.io/badge/H2_(Dev)-003B57?style=flat&logo=h2&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL_(Prod)-4479A1?style=flat&logo=mysql&logoColor=white) |
-| **Infra & Tools** | ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white) |
+| **Infra & Tools** | ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white) ![EC2](https://img.shields.io/badge/EC2-FF9900?style=flat&logo=amazon-ec2&logoColor=white) ![CodePipeline](https://img.shields.io/badge/CodePipeline-527FFF?style=flat&logo=amazon-aws&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white) |
 | **AI** | ![OpenAI](https://img.shields.io/badge/OpenAI_DALL·E-412991?style=flat&logo=openai&logoColor=white) |
 
 ---
 
 ## 🏗 시스템 아키텍처 (Architecture)
 
-사용자가 React 프론트엔드를 통해 요청을 보내면, Spring Boot 백엔드가 이를 처리하고 DB에 저장합니다.  
-표지 생성 요청 시에는 OpenAI API를 호출하여 이미지를 생성하고 반환받습니다.
+본 서비스는 **AWS Cloud** 환경에 배포되어 운영됩니다.  
+프론트엔드와 백엔드는 각각 **CI/CD 파이프라인**을 통해 자동 배포되며, 사용자는 Nginx 웹 서버를 통해 서비스를 이용하고 ALB(Application Load Balancer)를 통해 백엔드 API와 통신합니다.
+
+### ☁️ AWS Infra Architecture
+*   **Frontend**: AWS EC2 (Nginx Web Server)
+*   **Backend**: AWS EC2 (Spring Boot Application)
+*   **Load Balancer**: AWS Application Load Balancer (Backend API Routing)
+*   **CI/CD**: AWS CodePipeline (Source: GitHub -> Build: CodeBuild -> Deploy: CodeDeploy)
 
 ![Architecture Diagram](https://github.com/user-attachments/assets/d39dcfa3-e42b-4df0-ac10-1318c030c785)
+
+### 🚀 CI/CD Pipeline
+GitHub Main 브랜치에 코드가 푸시되면 AWS CodePipeline이 동작하여 자동 배포가 수행됩니다.
+
+1.  **Source**: GitHub Repository의 변경사항 감지
+2.  **Build (CodeBuild)**:
+    *   **Frontend**: Node.js 환경에서 `npm run build` 실행 (Vite 빌드)
+    *   **Backend**: Gradle을 사용하여 `bootJar` 빌드
+3.  **Deploy (CodeDeploy)**:
+    *   **Frontend**: 빌드된 정적 파일(`dist/`)을 EC2의 Nginx 경로(`/var/www/html`)로 배포
+    *   **Backend**: 빌드된 JAR 파일을 EC2로 전송하고 실행 스크립트(`start_application.sh`)를 통해 서버 재기동
 
 ---
 
@@ -62,15 +79,16 @@
 
 ```
 MiniProject5
-├── backend/          # Spring Boot 서버 프로젝트
-│   ├── src/main/java/com/aivle/spring  # 소스 코드
-│   ├── build.gradle                    # 의존성 설정
-│   └── README.md                       # 백엔드 상세 문서
+├── backend/          # Spring Boot Server
+│   ├── buildspec.yml # AWS CodeBuild 명세서
+│   ├── appspec.yml   # AWS CodeDeploy 명세서
+│   └── src/          # Source Code
 │
-└── frontend/         # React 웹 프로젝트
-    ├── src/                            # 소스 코드 (Pages, Components)
-    ├── package.json                    # 의존성 설정
-    └── README.md                       # 프론트엔드 상세 문서
+└── frontend/         # React Client
+    ├── buildspec.yml # AWS CodeBuild 명세서 (API URL 주입 등)
+    ├── appspec.yml   # AWS CodeDeploy 명세서
+    ├── nginx.conf    # Nginx Web Server 설정
+    └── src/          # Source Code
 ```
 
 ---
