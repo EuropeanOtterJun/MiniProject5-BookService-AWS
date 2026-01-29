@@ -173,28 +173,6 @@ MiniProject5-BookService-AWS/
 - ✅ 주요 메트릭 대시보드 구축
 - ✅ 장애 발생 시 즉각 알림
 
-## 🔍 개선 사항 및 향후 계획
-
-### 현재 개선 필요 사항
-1. **테스트 자동화**
-   - Unit Test, Integration Test 자동 실행
-   - 테스트 커버리지 80% 이상 유지
-
-2. **배포 전략 다양화**
-   - Rolling 배포, Canary 배포 옵션 추가
-   - A/B 테스팅 환경 구축
-
-3. **컨테이너화**
-   - Docker 기반 배포로 전환
-   - EKS(Kubernetes) 도입 검토
-
-### 향후 발전 방향
-- [ ] AWS ECS/EKS로 마이그레이션
-- [ ] Terraform을 통한 IaC 구현
-- [ ] CI/CD 파이프라인에 보안 스캔 추가
-- [ ] Frontend 정적 호스팅 (S3 + CloudFront)
-- [ ] 멀티 리전 배포
-
 ## 🚨 트러블슈팅
 
 ### 1. 인스턴스 무한 생성 문제
@@ -234,24 +212,6 @@ healthy_threshold: 2
 unhealthy_threshold: 3
 ```
 
-## 📸 프로젝트 스크린샷
-
-### CI/CD 파이프라인
-![CodePipeline Success](docs/images/codepipeline-success.png)
-> Source → Build → Deploy 단계가 모두 성공적으로 완료된 파이프라인
-
-### Auto Scaling 구성
-![Auto Scaling Group](docs/images/auto-scaling.png)
-> 2-4개 인스턴스로 구성된 Auto Scaling Group
-
-### CloudWatch 모니터링
-![CloudWatch Dashboard](docs/images/cloudwatch-dashboard.png)
-> CPU, 네트워크, 메모리 등 주요 메트릭 실시간 모니터링
-
-### 배포된 웹 서비스
-![Web Service](docs/images/web-service.png)
-> Green 환경에 배포된 도서 관리 시스템 화면
-
 ## 👥 팀 구성
 
 **KT AIVLE School AI 02반 03조**
@@ -271,7 +231,6 @@ unhealthy_threshold: 3
 
 ## 🔗 관련 링크
 
-- [프로젝트 발표 자료](docs/presentation.pdf)
 - [AWS CodePipeline Documentation](https://docs.aws.amazon.com/codepipeline/)
 - [AWS CodeDeploy Documentation](https://docs.aws.amazon.com/codedeploy/)
 - [AWS Auto Scaling Documentation](https://docs.aws.amazon.com/autoscaling/)
